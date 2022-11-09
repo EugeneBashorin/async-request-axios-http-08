@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "http-server": "^14.1.1",
-    "notiflix": "^3.2.5"
+    "notiflix": "^3.2.5",
+    "simplelightbox": "^2.10.4"
   }
 }

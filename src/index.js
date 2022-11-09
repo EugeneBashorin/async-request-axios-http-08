@@ -2,6 +2,9 @@ import "./styles/main.css";
 import "./img/loupe.png";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
 const searchFormData = document.querySelector('#search-form');
 const inputData = document.querySelector("input[name=searchQuery]");
 const galleryPlace = document.querySelector('.gallery');
@@ -16,6 +19,20 @@ let firstRequest = true;
 
 searchFormData.addEventListener('submit', submitFormDataHandler);
 loadBtn.addEventListener('click', loadBtnHandler);
+
+galleryPlace.addEventListener("click", event => {
+    event.preventDefault();
+    if(event.target.nodeName !== "IMG"){
+        return;
+        }
+            let gallery = new SimpleLightbox('.gallery a', {
+            captionsData: 'alt',
+            captionDelay: '250',
+        });
+            gallery.on('show.simplelightbox');
+    }
+    
+)
 
 function submitFormDataHandler(event){
     event.preventDefault();
@@ -83,7 +100,7 @@ function getMarkup(dataArr){
     let stringMarkup = dataArr.map(element =>
         `<div class="photo-card">
             <div class="post-thumb">
-                <img src=${element.webformatURL} alt=${element.tags} loading="lazy" />
+            <a href=${element.webformatURL}><img src=${element.webformatURL} alt=${element.tags} loading="lazy" /></a>
             </div>
             <div class="info">
                 <p class="info-item"><b>Likes</b> ${element.likes}</p>
