@@ -2,6 +2,9 @@ import "./styles/main.css";
 import "./img/loupe.png";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
+import {showLoadBtn, hideLoadBtn} from "./btnVisible";
+import {appendMarkup, clearElementData, getMarkup} from "./markupTools";
+
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
@@ -30,9 +33,7 @@ galleryPlace.addEventListener("click", event => {
             captionDelay: '250',
         });
             gallery.on('show.simplelightbox');
-    }
-    
-)
+    })
 
 function submitFormDataHandler(event){
     event.preventDefault();
@@ -43,13 +44,13 @@ function submitFormDataHandler(event){
     }
 
     clearElementData(galleryPlace);
-    hideLoadBtn();
+    hideLoadBtn(loadBtn);
     firstRequest = true;
     getImgArray(inputValue, firstRequest).then(data => {
 
         if(data.total === 0){
             Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-            hideLoadBtn();
+            hideLoadBtn(loadBtn);
             return;
         }
         if(data.totalHits > 0){
@@ -60,7 +61,18 @@ function submitFormDataHandler(event){
         const arrData = data.hits;
         const markup = getMarkup(arrData);
         appendMarkup(galleryPlace, markup);
-        showLoadBtn();
+        showLoadBtn(loadBtn);
+    }).catch(error => console.log(error));
+}
+
+function loadBtnHandler(event){
+    event.preventDefault();
+    const inputValue = inputData.value.trim(" ");
+    firstRequest = false;
+    getImgArray(inputValue, firstRequest).then(data => {
+        const arrData = data.hits;
+        const markup = getMarkup(arrData);
+        appendMarkup(galleryPlace, markup);
     }).catch(error => console.log(error));
 }
 
@@ -83,47 +95,4 @@ function getImgArray(request, requestState){
         }
         return result.json()})
     .then(data => data);
-}
-
-function loadBtnHandler(event){
-    event.preventDefault();
-    const inputValue = inputData.value.trim(" ");
-    firstRequest = false;
-    getImgArray(inputValue, firstRequest).then(data => {
-        const arrData = data.hits;
-        const markup = getMarkup(arrData);
-        appendMarkup(galleryPlace, markup);
-    }).catch(error => console.log(error));
-}
-
-function getMarkup(dataArr){
-    let stringMarkup = dataArr.map(element =>
-        `<div class="photo-card">
-            <div class="post-thumb">
-            <a href=${element.webformatURL}><img src=${element.webformatURL} alt=${element.tags} loading="lazy" /></a>
-            </div>
-            <div class="info">
-                <p class="info-item"><b>Likes</b> ${element.likes}</p>
-                <p class="info-item"><b>Views</b> ${element.views}</p>
-                <p class="info-item"><b>Comments</b> ${element.comments}</p>
-                <p class="info-item"><b>Downloads</b> ${element.downloads}</p>
-            </div>
-        </div>`
-    ).join("");
-    return stringMarkup;
-}
-
-function appendMarkup(place, data){
-    place.insertAdjacentHTML("beforeend", data)
-}
-
-function clearElementData(element){
-    element.textContent = "";
-}
-
-function showLoadBtn(){
-    loadBtn.classList.add("is-active");
-}
-function hideLoadBtn(){
-    loadBtn.classList.remove("is-active");
 }
