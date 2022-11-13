@@ -9,9 +9,9 @@ export function clearElementData(element){
 export function getMarkup(dataArr){
     let stringMarkup = dataArr.map(element =>
         `<div class="photo-card">
-            <div class="post-thumb">
-            <a href=${element.webformatURL}><img src=${element.webformatURL} alt=${element.tags} loading="lazy" /></a>
-            </div>
+            <a class="post-thumb" href=${element.webformatURL}>
+                <img src=${element.webformatURL} alt=${element.tags} loading="lazy" />
+            </a>
             <div class="info">
                 <p class="info-item"><b>Likes</b> ${element.likes}</p>
                 <p class="info-item"><b>Views</b> ${element.views}</p>
