@@ -1,8 +1,9 @@
 const MAIN_URL = 'https://pixabay.com/api/';
 const API_KEY = '30989027-ff1c7f924c0d6be10aa8f4236';
-let per_page = 40;
 
-export async function fetchImgArray(request, currentPage){
+import{currentPage, per_page} from "./index.js"
+
+export async function fetchImgArray(request){
 const pageParams = new URLSearchParams({
         per_page: per_page,
         page: currentPage,
