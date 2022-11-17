@@ -1,10 +1,10 @@
+import axios from "axios";
+import{currentPage, per_page} from "./index.js"
 const MAIN_URL = 'https://pixabay.com/api/';
 const API_KEY = '30989027-ff1c7f924c0d6be10aa8f4236';
 
-import{currentPage, per_page} from "./index.js"
-
 export async function fetchImgArray(request){
-const pageParams = new URLSearchParams({
+    const pageParams = new URLSearchParams({
         per_page: per_page,
         page: currentPage,
         key: API_KEY,
@@ -14,11 +14,9 @@ const pageParams = new URLSearchParams({
         q: request,
     })
     try{
-        const response = await fetch(`${MAIN_URL}?${pageParams}`);
-        const imgDataObjParse = await response.json();
-        return imgDataObjParse;
-    }
-    catch(error){
-        return console.log(Error.message)
+        const imgDataObjParse = await axios.get(`${MAIN_URL}?${pageParams}`)
+        return imgDataObjParse.data;
+    }catch(error){
+        console.error(error);
     }
 }

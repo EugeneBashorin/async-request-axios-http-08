@@ -8,3 +8,4 @@
 5) Added slider lib "SimpleLightbox" for gallery.
 6) Split js code into multiple files
 7) Change code with async/await
+8) Added the Axios library and modified the code with Axios to make the code simpler and cleaner.
