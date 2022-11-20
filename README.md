@@ -9,3 +9,4 @@
 6) Split js code into multiple files
 7) Change code with async/await
 8) Added the Axios library and modified the code with Axios to make the code simpler and cleaner.
+9)Replaced functionality. Instead of the "load more" button, I made an infinite scroll. Used IntersectionObserver library to determine the intersection of the viewport and an empty div element. Splited code.
